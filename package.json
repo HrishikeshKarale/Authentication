@@ -4,13 +4,21 @@
   "description": "This project showcases how to set up an authentication  for your website using SQLite.",
   "author": "HrishikeshKarale <Hrishikesh.karale@gmail.com>",
   "private": true,
+  // "scripts": {
+  //   "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
+  //   "start": "npm run dev",
+  //   "lint": "eslint --ext .js,.vue src",
+  //   "build": "node build/build.js"
+  // },
   "scripts": {
     "dev": "webpack-dev-server --inline --progress --config build/webpack.dev.conf.js",
     "start": "npm run dev",
     "lint": "eslint --ext .js,.vue src",
+    "server": "node server/app",
     "build": "node build/build.js"
   },
   "dependencies": {
+    "axios": "^0.21.0",
     "bcrypt": "^5.0.0",
     "body-parser": "^1.19.0",
     "jsonwebtoken": "^8.5.1",
