@@ -59,14 +59,14 @@ export default {
     handleSubmit(e) {
       e.preventDefault();
 
-      if (
-        this.password === this.passwordConfirmation &&
-        this.password.length > 0
-      ) {
+      if (this.password === this.passwordConfirmation && this.password.length > 0) {
         let url = "http://localhost:8000/register";
-        if (this.isAdmin != null || this.isAdmin == 1)
+        if (this.isAdmin != null || this.isAdmin == 1){
           url = "http://localhost:8000/register-admin";
-        this.$http
+        }
+        //POST request
+        console.log(this);
+        this.$axios
           .post(url, {
             name: this.name,
             email: this.email,

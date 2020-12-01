@@ -33,10 +33,8 @@ app.use(allowCrossDomain);
 router.post("/register", (req, res) => {
   const name = req.body.name;
   const email = req.body.email;
-  const password = req.body.user_pass;
-  const admin = req.body.is_admin;
-  console.log(req.body, name, email, password, admin);
-  db.insert([name, email, bcrypt.hashSync(password, 10), admin], err => {
+  const password = req.body.password;
+  db.insert([name, email, bcrypt.hashSync(password, 10)], err => {
     if (err) {
       console.error("register user", err);
       return res.status(500).send("There was a problem registering the user.");
@@ -63,14 +61,18 @@ router.post("/register", (req, res) => {
 
 // define the route for registering an administrator
 router.post("/register-admin", (req, res) => {
+  const name = req.body.name;
+  const email = req.body.email;
+  const password = req.body.password;
+  const admin = req.body.isAdmin;
   db.insertAdmin(
-    [req.body.name, req.body.email, bcrypt.hashSync(req.body.password, 8), 1],
+    [name, email, bcrypt.hashSync(password, 8), admin],
     err => {
       if (err)
         return res
           .status(500)
           .send("There was a problem registering the user.");
-      db.selectByEmail(req.body.email, (err, user) => {
+      db.selectByEmail(email, (err, user) => {
         if (err)
           return res.status(500).send("There was a problem getting user");
         const token = jwt.sign(
@@ -99,7 +101,7 @@ router.post("/login", (req, res) => {
     if (!user) return res.status(404).send("No user found.");
     const passwordIsValid = bcrypt.compareSync(
       req.body.password,
-      user.user_pass
+      user.password
     );
     if (!passwordIsValid) {
       return res.status(401).send({
