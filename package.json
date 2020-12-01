@@ -4,9 +4,10 @@
   "private": true,
   "description": "This project showcases how to set up an authentication  for your website using SQLite.",
   "scripts": {
+    "devServer": "concurrently \"npm run dev\" \"npm run server\"",
     "dev": "vue-cli-service serve --inline --progress --fix",
-    "build": "vue-cli-service build",
     "server": "nodemon server/app",
+    "build": "vue-cli-service build",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
