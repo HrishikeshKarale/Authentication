@@ -32,7 +32,7 @@ export default {
     handleSubmit(e) {
       e.preventDefault();
       if (this.password.length > 0) {
-        this.$http
+        this.$axios
           .post("http://localhost:8000/login", {
             email: this.email,
             password: this.password

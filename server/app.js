@@ -65,44 +65,37 @@ router.post("/register-admin", (req, res) => {
   const email = req.body.email;
   const password = req.body.password;
   const admin = req.body.isAdmin;
-  db.insertAdmin(
-    [name, email, bcrypt.hashSync(password, 8), admin],
-    err => {
-      if (err)
-        return res
-          .status(500)
-          .send("There was a problem registering the user.");
-      db.selectByEmail(email, (err, user) => {
-        if (err)
-          return res.status(500).send("There was a problem getting user");
-        const token = jwt.sign(
-          {
-            id: user.id
-          },
-          config.secret,
-          {
-            expiresIn: 86400 // expires in 24 hours
-          }
-        );
-        res.status(200).send({
-          auth: true,
-          token,
-          user
-        });
+  db.insertAdmin([name, email, bcrypt.hashSync(password, 8), admin], err => {
+    if (err)
+      return res.status(500).send("There was a problem registering the user.");
+    db.selectByEmail(email, (err, user) => {
+      if (err) return res.status(500).send("There was a problem getting user");
+      const token = jwt.sign(
+        {
+          id: user.id
+        },
+        config.secret,
+        {
+          expiresIn: 86400 // expires in 24 hours
+        }
+      );
+      res.status(200).send({
+        auth: true,
+        token,
+        user
       });
-    }
-  );
+    });
+  });
 });
 
 // define the route for logging in an administrator
 router.post("/login", (req, res) => {
-  db.selectByEmail(req.body.email, (err, user) => {
+  const email = req.body.email;
+  const password = req.body.password;
+  db.selectByEmail(email, (err, user) => {
     if (err) return res.status(500).send("Error on the server.");
     if (!user) return res.status(404).send("No user found.");
-    const passwordIsValid = bcrypt.compareSync(
-      req.body.password,
-      user.password
-    );
+    const passwordIsValid = bcrypt.compareSync(password, user.user_pass);
     if (!passwordIsValid) {
       return res.status(401).send({
         auth: false,
