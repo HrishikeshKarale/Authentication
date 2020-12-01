@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "vue-cli-service serve --inline --progress --fix",
     "build": "vue-cli-service build",
-    "server": "node server/app",
+    "server": "nodemon server/app",
     "lint": "vue-cli-service lint"
   },
   "dependencies": {
@@ -16,6 +16,7 @@
     "core-js": "^3.6.5",
     "cors": "^2.8.5",
     "jsonwebtoken": "^8.5.1",
+    "nodemon": "^2.0.6",
     "register-service-worker": "^1.7.1",
     "sqlite3": "^5.0.0",
     "vue": "^2.6.11",
